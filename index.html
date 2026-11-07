@@ -1,103 +1,195 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = r'''<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102a56">
+<meta name="description" content="Bac Smart Egypt - رفيقك الذكي في البكالوريا المصرية">
 <title>Bac Smart Egypt</title>
 <style>
+:root{--navy:#102a56;--blue:#2456a6;--ink:#17243b;--muted:#68758b;--bg:#f3f6fb;--card:#fff;--line:#e4eaf3;--green:#16845b}
 *{box-sizing:border-box}
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f1f5fb;
-color:#14294d;
-}
-header{
-background:#102a56;
-color:white;
-padding:24px;
-text-align:center;
-}
-header h1{margin:8px 0;font-size:27px}
-header p{margin:0;color:#c9dcff}
-main{padding:20px;max-width:600px;margin:auto}
-h2{font-size:22px}
-select,button{
-width:100%;padding:15px;border-radius:12px;
-font-size:16px;margin:8px 0;
-}
-select{border:1px solid #ccd6e5;background:white}
-button{
-border:0;background:#2864d8;color:white;
-font-weight:bold;cursor:pointer;
-}
-.card{
-background:white;padding:18px;margin:12px 0;
-border-radius:16px;box-shadow:0 4px 15px #0000000c;
-}
-.card h3{margin-top:0}
-#result{line-height:2}
-footer{text-align:center;color:#78859a;padding:25px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif;line-height:1.7}
+button,select{font:inherit}
+.topbar{display:flex;align-items:center;gap:12px;padding:16px max(18px,calc((100% - 1050px)/2));background:var(--navy);color:white}
+.brand-mark{width:44px;height:44px;border-radius:14px;background:#fff;color:var(--navy);display:grid;place-items:center;font-size:25px;font-weight:bold}
+.brand{font-size:20px;font-weight:800;direction:ltr;text-align:right}
+.brand span{color:#9dc4ff}
+.tagline{font-size:12px;color:#d5e2f7}
+main{max-width:1050px;margin:auto;padding:22px 16px 100px}
+.hero{background:linear-gradient(135deg,#102a56,#2456a6);color:white;padding:28px;border-radius:24px;box-shadow:0 12px 30px #102a5620}
+.eyebrow{font-size:12px;color:#a9c9ff;font-weight:bold;margin:0 0 5px}
+.hero h1{font-size:clamp(28px,5vw,42px);line-height:1.35;margin:5px 0}
+.hero h1 span{color:#b8d4ff}
+.hero-copy{color:#e0eaff;margin:8px 0 20px}
+.grade-picker{max-width:360px}
+.grade-picker label{display:block;font-size:13px;margin-bottom:6px;color:#e0eaff}
+select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:white;color:var(--ink)}
+.section{margin:26px 0}
+.section-heading h2{margin:0;font-size:23px}
+.section-heading .eyebrow{color:var(--blue)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+.feature-card{border:1px solid var(--line);background:var(--card);padding:16px;border-radius:18px;text-align:right;cursor:pointer;color:var(--ink);transition:.2s}
+.feature-card:hover,.subject:hover{transform:translateY(-2px);box-shadow:0 8px 20px #102a5612}
+.feature-icon{font-size:24px;display:block;margin-bottom:8px}
+.feature-card strong{display:block}
+.feature-card small{color:var(--muted)}
+.panel{background:white;border:1px solid var(--line);border-radius:20px;padding:20px;margin-top:18px}
+.panel h2{margin:0 0 8px}
+.muted{color:var(--muted);font-size:14px}
+.pathways{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.pathway,.subject{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;text-align:right;color:var(--ink)}
+.pathway{cursor:pointer}
+.pathway.selected{border:2px solid var(--blue);background:#f3f7ff}
+.pathway strong{display:block}
+.choice-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.choice{border:1px solid var(--line);background:#f8faff;border-radius:12px;padding:12px;cursor:pointer;text-align:center}
+.choice.selected{background:#eaf2ff;border:2px solid var(--blue);font-weight:bold}
+.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.subject{display:flex;align-items:center;gap:12px}
+.subject .emoji{font-size:24px}
+.subject small{display:block;color:var(--muted)}
+.religion{margin-top:16px;padding:15px;border:1px dashed #d69a32;background:#fffaf0;border-radius:14px}
+.tag{display:inline-block;border-radius:30px;padding:2px 10px;font-size:11px;background:#fff0cf;color:#885600;margin-right:6px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:0;border-radius:12px;padding:11px 18px;cursor:pointer;background:var(--blue);color:white}
+.btn.secondary{background:#edf2fa;color:var(--navy)}
+.notice{padding:12px 14px;background:#edf8f3;border:1px solid #cce9db;color:#176344;border-radius:12px;margin-top:14px}
+.empty{padding:18px;text-align:center;color:var(--muted)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:clamp(18px,8vw,90px);padding:9px;z-index:5}
+.nav-item{border:0;background:none;color:var(--muted);font-size:12px;cursor:pointer}
+.nav-item span{display:block;font-size:20px}
+.nav-item.active{color:var(--blue);font-weight:bold}
+@media(max-width:700px){.cards{grid-template-columns:repeat(2,1fr)}.pathways,.subjects{grid-template-columns:1fr}.hero{padding:22px}.panel{padding:16px}}
 </style>
 </head>
 <body>
-<header>
-<div style="font-size:40px">🎓</div>
-<h1>Bac Smart Egypt</h1>
-<p>رفيقك الذكي في البكالوريا المصرية</p>
+<header class="topbar">
+  <div class="brand-mark">B</div>
+  <div><div class="brand">Bac Smart <span>Egypt</span></div><div class="tagline">رفيقك الذكي في البكالوريا المصرية</div></div>
 </header>
-
 <main>
-<div class="card">
-<h2>أهلاً بيك يا بطل 👋</h2>
-<p>مستقبلك يبدأ بخطوة ذكية!</p>
-<label>اختار صفك الدراسي:</label>
-<select id="grade">
-<option>أولى بكالوريا</option>
-<option>تانية بكالوريا</option>
-</select>
-</div>
+  <section class="hero">
+    <p class="eyebrow">أهلاً بيك 👋</p>
+    <h1>مستقبلك يبدأ<br><span>بخطوة ذكية</span></h1>
+    <p class="hero-copy">ذاكر بذكاء، تدرّب باستمرار، وتابع تقدمك في رحلتك.</p>
+    <div class="grade-picker">
+      <label for="grade">اختار صفك الدراسي</label>
+      <select id="grade"><option value="first">أولى بكالوريا</option><option value="second">ثانية بكالوريا</option></select>
+    </div>
+  </section>
 
-<h2>خدمات التطبيق</h2>
+  <section class="section">
+    <div class="section-heading"><p class="eyebrow">ابدأ رحلتك</p><h2>كل اللي تحتاجه</h2></div>
+    <div class="cards">
+      <button class="feature-card" data-action="subjects"><span class="feature-icon">📚</span><strong>المواد الدراسية</strong><small>موادك حسب الصف والمسار</small></button>
+      <button class="feature-card" data-action="quiz"><span class="feature-icon">📝</span><strong>اختبر نفسك</strong><small>تدريبات وأسئلة تجريبية</small></button>
+      <button class="feature-card" data-action="teacher"><span class="feature-icon">🤖</span><strong>المدرس الذكي</strong><small>اسأل واستعد للفهم</small></button>
+      <button class="feature-card" data-action="progress"><span class="feature-icon">📈</span><strong>تقدمي</strong><small>تابع إنجازك ومذاكرتك</small></button>
+    </div>
+  </section>
 
-<div class="card">
-<h3>📚 المواد الدراسية</h3>
-<p>تابع موادك ودروسك بسهولة.</p>
-<button onclick="show('المواد الدراسية','هنضيف المواد والمسارات الرسمية للبكالوريا المصرية هنا.')">افتح المواد</button>
-</div>
-
-<div class="card">
-<h3>📝 الامتحانات والتدريبات</h3>
-<p>اختبر معلوماتك واستعد للامتحانات.</p>
-<button onclick="show('الامتحانات','قريباً سنضيف اختبارات وتدريبات مع التصحيح.')">ابدأ التدريب</button>
-</div>
-
-<div class="card">
-<h3>🤖 المدرس الذكي</h3>
-<p>مساعدك في فهم الدروس وحل الأسئلة.</p>
-<button onclick="show('المدرس الذكي','واجهة المدرس الذكي جاهزة، وسنربطها بالذكاء الاصطناعي لاحقاً.')">افتح المدرس</button>
-</div>
-
-<div class="card">
-<h3>📈 متابعة مستواك</h3>
-<p>تابع تقدمك في المذاكرة.</p>
-<button onclick="show('متابعة مستواك','سنضيف متابعة الإنجاز والدرجات قريباً.')">تابع تقدمك</button>
-</div>
-
-<div class="card" id="result">
-<h3>ابدأ رحلتك 🚀</h3>
-<p>اختار إحدى الخدمات بالأعلى.</p>
-</div>
+  <section id="content" class="panel" aria-live="polite">
+    <p class="eyebrow">خطوتك الأولى</p><h2>اختار صفك وابدأ</h2>
+    <p class="muted">اضغط على «المواد الدراسية» علشان تظهر لك مواد صفك.</p>
+  </section>
 </main>
-
-<footer>Bac Smart Egypt © 2026</footer>
+<nav class="bottom-nav">
+  <button class="nav-item active" data-action="home"><span>⌂</span>الرئيسية</button>
+  <button class="nav-item" data-action="subjects"><span>▤</span>المواد</button>
+  <button class="nav-item" data-action="quiz"><span>✓</span>الاختبارات</button>
+  <button class="nav-item" data-action="progress"><span>▥</span>تقدمي</button>
+</nav>
 
 <script>
-function show(title,message){
-document.getElementById('result').innerHTML=
-'<h3>'+title+'</h3><p>'+message+'</p>';
-document.getElementById('result').scrollIntoView({behavior:'smooth'});
+const firstSubjects=[
+  ["💻","البرمجة"],["🏺","التاريخ"],["🧬","العلوم المتكاملة"],["📖","اللغة العربية"],
+  ["🇬🇧","اللغة الإنجليزية"],["📐","الرياضيات"],["🌍","اللغة الثانية"],["🧠","الفلسفة والمنطق"]
+];
+const paths=[
+  {name:"الهندسة وعلوم الحاسب",icon:"💻",choices:["البرمجة","الكيمياء"]},
+  {name:"الطب وعلوم الحياة",icon:"🧬",choices:["الفيزياء","الرياضيات"]},
+  {name:"الآداب والفنون",icon:"🎨",choices:["علم النفس","اللغة الثانية"]},
+  {name:"إدارة الأعمال",icon:"📊",choices:["المحاسبة","إدارة الأعمال"]}
+];
+let selectedPath=0,selectedChoice="",selectedLanguage="";
+const content=document.getElementById("content");
+const grade=document.getElementById("grade");
+function subjectCard(icon,name,sub=""){
+  return `<div class="subject"><span class="emoji">${icon}</span><div><strong>${name}</strong>${sub?`<small>${sub}</small>`:""}</div></div>`;
 }
+function showSubjects(){
+  if(grade.value==="first"){
+    content.innerHTML=`
+      <p class="eyebrow">أولى بكالوريا</p><h2>مواد الصف الأول</h2>
+      <p class="muted">8 مواد دراسية، بالإضافة إلى التربية الدينية خارج المجموع.</p>
+      <div class="subjects">${firstSubjects.map(s=>subjectCard(s[0],s[1],s[1]==="اللغة الثانية"?(selectedLanguage?`اللغة المختارة: ${selectedLanguage}`:"اختار اللغة التي تدرسها"):"")).join("")}</div>
+      <div class="religion"><strong>🕌 التربية الدينية</strong><span class="tag">خارج المجموع</span><div class="muted">موجودة للمذاكرة والتدريب والامتحانات.</div></div>
+      <div class="panel"><strong>اختيار اللغة الثانية</strong><div class="choice-list">
+      ${["الألمانية","الفرنسية","الإيطالية"].map(x=>`<button class="choice ${selectedLanguage===x?"selected":""}" data-language="${x}">${x}</button>`).join("")}
+      </div></div>`;
+  }else showPaths();
+}
+function showPaths(){
+  content.innerHTML=`
+    <p class="eyebrow">ثانية بكالوريا</p><h2>اختار مسارك الدراسي</h2>
+    <p class="muted">3 مواد مشتركة، ومادة رابعة تختارها من اختيارين حسب المسار.</p>
+    <div class="pathways">${paths.map((p,i)=>`<button class="pathway ${i===selectedPath?"selected":""}" data-path="${i}"><strong>${p.icon} ${p.name}</strong><small class="muted">اضغط لاختيار هذا المسار</small></button>`).join("")}</div>
+    <div class="panel"><strong>اختار المادة الرابعة في مسار ${paths[selectedPath].name}</strong>
+      <div class="choice-list">${paths[selectedPath].choices.map(c=>`<button class="choice ${selectedChoice===c?"selected":""}" data-choice="${c}">${c}</button>`).join("")}</div>
+    </div>
+    <div class="panel"><strong>المواد المشتركة</strong><div class="subjects">
+      ${subjectCard("🏺","التاريخ")}${subjectCard("📖","اللغة العربية")}${subjectCard("🇬🇧","اللغة الإنجليزية")}
+    </div></div>
+    <div class="religion"><strong>🕌 التربية الدينية</strong><span class="tag">خارج المجموع</span><div class="muted">موجودة في الصف الثاني أيضًا.</div></div>
+    <div class="actions"><button class="btn" id="confirmPath">اعتماد موادي</button></div>
+    ${sessionStorage.getItem("confirmedSubjects")?`<div class="notice">آخر اختيار محفوظ على هذه الصفحة: ${sessionStorage.getItem("confirmedSubjects")}</div>`:""}`;
+}
+function showFeature(which){
+  if(which==="subjects"){showSubjects();return;}
+  const titles={quiz:"الاختبارات والتدريبات",teacher:"المدرس الذكي",progress:"تقدمي"};
+  content.innerHTML=`<p class="eyebrow">Bac Smart Egypt</p><h2>${titles[which]||"الرئيسية"}</h2>
+    <p class="muted">القسم ده لسه تحت التجهيز. هنضيف محتواه بعد الانتهاء من نظام المواد.</p>
+    <button class="btn secondary" id="backSubjects">العودة إلى المواد الدراسية</button>`;
+}
+document.addEventListener("click",e=>{
+  const action=e.target.closest("[data-action]")?.dataset.action;
+  if(action){
+    document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("active",b.dataset.action===action));
+    if(action==="home"){content.innerHTML='<p class="eyebrow">خطوتك الأولى</p><h2>اختار صفك وابدأ</h2><p class="muted">اضغط على «المواد الدراسية» علشان تظهر لك مواد صفك.</p>';}
+    else showFeature(action);
+    return;
+  }
+  const path=e.target.closest("[data-path]");
+  if(path){selectedPath=Number(path.dataset.path);selectedChoice="";showPaths();return;}
+  const choice=e.target.closest("[data-choice]");
+  if(choice){selectedChoice=choice.dataset.choice;showPaths();return;}
+  const lang=e.target.closest("[data-language]");
+  if(lang){selectedLanguage=lang.dataset.language;showSubjects();return;}
+  if(e.target.id==="confirmPath"){
+    if(!selectedChoice){alert("اختار مادة واحدة من الاختيارين الأول.");return;}
+    const chosen=paths[selectedPath];
+    const summary=`${chosen.name} — ${selectedChoice}`;
+    sessionStorage.setItem("confirmedSubjects",summary);
+    content.innerHTML=`<p class="eyebrow">تم اعتماد اختيارك</p><h2>موادك في ثانية بكالوريا</h2>
+      <div class="subjects">${subjectCard("🏺","التاريخ")}${subjectCard("📖","اللغة العربية")}${subjectCard("🇬🇧","اللغة الإنجليزية")}${subjectCard(chosen.icon,selectedChoice)}</div>
+      <div class="notice">المسار: ${chosen.name}<br>تم اختيار المادة الرابعة: ${selectedChoice}</div>
+      <div class="religion"><strong>🕌 التربية الدينية</strong><span class="tag">خارج المجموع</span></div>
+      <div class="actions"><button class="btn secondary" id="editPath">تعديل الاختيار</button></div>`;
+    return;
+  }
+  if(e.target.id==="editPath")showPaths();
+  if(e.target.id==="backSubjects")showSubjects();
+});
+grade.addEventListener("change",()=>{
+  selectedPath=0;selectedChoice="";sessionStorage.removeItem("confirmedSubjects");showSubjects();
+});
 </script>
 </body>
 </html>
+'''
+path = Path("/mnt/data/index.html")
+path.write_text(html, encoding="utf-8")
+print(f"تم إنشاء الملف: {path} — الحجم: {path.stat().st_size:,} بايت")
