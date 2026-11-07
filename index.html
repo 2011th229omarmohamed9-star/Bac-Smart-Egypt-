@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bac Smart Egypt</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f1f5fb;
+color:#14294d;
+}
+header{
+background:#102a56;
+color:white;
+padding:24px;
+text-align:center;
+}
+header h1{margin:8px 0;font-size:27px}
+header p{margin:0;color:#c9dcff}
+main{padding:20px;max-width:600px;margin:auto}
+h2{font-size:22px}
+select,button{
+width:100%;padding:15px;border-radius:12px;
+font-size:16px;margin:8px 0;
+}
+select{border:1px solid #ccd6e5;background:white}
+button{
+border:0;background:#2864d8;color:white;
+font-weight:bold;cursor:pointer;
+}
+.card{
+background:white;padding:18px;margin:12px 0;
+border-radius:16px;box-shadow:0 4px 15px #0000000c;
+}
+.card h3{margin-top:0}
+#result{line-height:2}
+footer{text-align:center;color:#78859a;padding:25px}
+</style>
+</head>
+<body>
+<header>
+<div style="font-size:40px">🎓</div>
+<h1>Bac Smart Egypt</h1>
+<p>رفيقك الذكي في البكالوريا المصرية</p>
+</header>
+
+<main>
+<div class="card">
+<h2>أهلاً بيك يا بطل 👋</h2>
+<p>مستقبلك يبدأ بخطوة ذكية!</p>
+<label>اختار صفك الدراسي:</label>
+<select id="grade">
+<option>أولى بكالوريا</option>
+<option>تانية بكالوريا</option>
+</select>
+</div>
+
+<h2>خدمات التطبيق</h2>
+
+<div class="card">
+<h3>📚 المواد الدراسية</h3>
+<p>تابع موادك ودروسك بسهولة.</p>
+<button onclick="show('المواد الدراسية','هنضيف المواد والمسارات الرسمية للبكالوريا المصرية هنا.')">افتح المواد</button>
+</div>
+
+<div class="card">
+<h3>📝 الامتحانات والتدريبات</h3>
+<p>اختبر معلوماتك واستعد للامتحانات.</p>
+<button onclick="show('الامتحانات','قريباً سنضيف اختبارات وتدريبات مع التصحيح.')">ابدأ التدريب</button>
+</div>
+
+<div class="card">
+<h3>🤖 المدرس الذكي</h3>
+<p>مساعدك في فهم الدروس وحل الأسئلة.</p>
+<button onclick="show('المدرس الذكي','واجهة المدرس الذكي جاهزة، وسنربطها بالذكاء الاصطناعي لاحقاً.')">افتح المدرس</button>
+</div>
+
+<div class="card">
+<h3>📈 متابعة مستواك</h3>
+<p>تابع تقدمك في المذاكرة.</p>
+<button onclick="show('متابعة مستواك','سنضيف متابعة الإنجاز والدرجات قريباً.')">تابع تقدمك</button>
+</div>
+
+<div class="card" id="result">
+<h3>ابدأ رحلتك 🚀</h3>
+<p>اختار إحدى الخدمات بالأعلى.</p>
+</div>
+</main>
+
+<footer>Bac Smart Egypt © 2026</footer>
+
+<script>
+function show(title,message){
+document.getElementById('result').innerHTML=
+'<h3>'+title+'</h3><p>'+message+'</p>';
+document.getElementById('result').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
